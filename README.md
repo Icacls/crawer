@@ -5,4 +5,4 @@
 **Source code** for [
 Create a  app using React, Node.js, MongoDB and Socket.IO](http://sahatyalkabov.com/create-a-character-voting-app-using-react-nodejs-mongodb-and-socketio/).
 
-
+![avatar](https://raw.githubusercontent.com/Icacls/crawer/master/public/img/preview.png)
