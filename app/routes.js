@@ -2,9 +2,18 @@ import React from 'react';
 import {Route} from 'react-router';
 import App from './components/App';
 import Home from './components/Home';
+import Stats from './components/Stats';
+import Character from './components/Character';
+import CharacterList from './components/CharacterList';
+import AddCharacter from './components/AddCharacter';
+import AddWebsite from './components/AddWebsite';
+import WebsiteList from './components/WebsiteList';
+import Login from './components/Login';
 
 export default (
-  <Route handler={App}>
-    <Route path='/' handler={Home} />
+  <Route component={App}>
+    <Route path='/' component={Login} />
+    <Route path='/addWebsite' component={AddWebsite} />
+    <Route path='/sites' component={WebsiteList} />
   </Route>
 );
