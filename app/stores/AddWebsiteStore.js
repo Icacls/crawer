@@ -11,6 +11,7 @@ class AddWebsiteStore {
   onAddWebsiteSuccess(successMessage) {
     this.nameValidationState = 'has-success';
     this.helpBlock = successMessage;
+    toastr.success('添加网址成功！');
   }
 
   onAddWebsiteFail(errorMessage) {

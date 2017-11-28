@@ -75,10 +75,10 @@ app.post('/api/website', function(req, res, next) {
 
         website.save(function(err) {
           if (err) return next(err);
-          
+          res.status(200).send({ message: websiteName + '  added success!' });
         });
       } catch (e) {
-        res.status(404).send({ message: name + ' is already added!' });
+        res.status(404).send({ message: websiteName + ' is already added!' });
       }
       
     }
