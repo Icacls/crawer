@@ -5,7 +5,7 @@ import AddWebsiteActions from '../actions/AddWebsiteActions';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-var uuid = require('node-uuid');  
+const uuidv1 = require('uuid/v1'); 
 
 class AddWebsite extends React.Component {
     constructor(props) {

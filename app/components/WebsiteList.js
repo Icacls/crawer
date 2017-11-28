@@ -39,16 +39,11 @@ class WebsiteList extends React.Component {
   }
 
   handleStatus(status) {
-      console.log(status)
-      if(status) {
-          return '运行'
-      } else {
-          return '暂停'
-      }
+      WebsiteListActions.updateWebsite(status);
   }
 
-  handleDel(website) {
-    WebsiteListActions.delWebsite(website.WebsiteId);
+  handleDel(siteId) {
+    WebsiteListActions.delWebsite(siteId);
   }
 
   render() {
@@ -61,7 +56,7 @@ class WebsiteList extends React.Component {
             <td>{Website.valid?'运行':'暂停'}</td>
             <td>
                 <button type="button" onClick={this.handleDel.bind(this, Website)} className="btn">删除</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" onClick={this.handleClick.bind(this, Website)} className="btn">{Website.valid?'暂停':'运行'}</button>
+                <button type="button" onClick={this.handleStatus.bind(this, Website)} className="btn">{Website.valid?'暂停':'运行'}</button>
             </td>
           </tr>  
       );

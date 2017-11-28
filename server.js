@@ -17,7 +17,7 @@ var Router = require('react-router');
 var swig  = require('swig');
 var xml2js = require('xml2js');
 var _ = require('underscore');
-var uuid = require('node-uuid');  
+const uuidv1 = require('uuid/v1');
 
 var config = require('./config');
 var routes = require('./app/routes');
@@ -450,7 +450,7 @@ app.post('/api/website', function(req, res, next) {
   async.waterfall([
     function(callback) {
       try {
-        var websiteId = uuid.v1();
+        var websiteId = uuidv1();
 
         Website.findOne({ websiteId: websiteId }, function(err, website) {
           if (err) return next(err);
@@ -476,7 +476,7 @@ app.post('/api/website', function(req, res, next) {
 
         website.save(function(err) {
           if (err) return next(err);
-          res.send({ message: websiteName + ' has been added successfully!' });
+          
         });
       } catch (e) {
         res.status(404).send({ message: name + ' is already added!' });
@@ -514,7 +514,7 @@ app.get('/api/websites', function(req, res, next) {
  * Reports a character. Character is removed after 4 reports.
  */
 app.post('/api/delSite', function(req, res, next) {
-  console.log(req.body.websiteId)
+  // console.log(req.body.websiteId)
   var websiteId = req.body.websiteId;
   Website.findOne({ websiteId: websiteId }, function(err, website) {
     if (err) return next(err);
@@ -531,6 +531,52 @@ app.post('/api/delSite', function(req, res, next) {
   });
 });
 
+/**
+ * PUT /api/updateSite
+ * Update winning and losing count for both characters.
+ */
+app.put('/api/updateSite', function(req, res, next) {
+  var siteId = req.body.websiteId;
+
+  if (!siteId ) {
+    return res.status(400).send({ message: 'updateSite requires at least one characters.' });
+  }
+
+  async.parallel([
+      function(callback) {
+        Website.findOne({ websiteId: siteId }, function(err, winner) {
+          callback(err, winner);
+        });
+      }
+    ],
+    function(err, results) {
+      if (err) return next(err);
+
+      var site = results[0];
+
+      if (!site) {
+        return res.status(404).send({ message: 'One of the characters no longer exists.' });
+      }
+
+      async.parallel([
+        function(callback) {
+          site.valid = !site.valid;
+          site.save(function(err) {
+            callback(err);
+          });
+        }
+      ], function(err) {
+        if (err) return next(err);
+        Website
+        .find({})
+        .limit(1000)
+        .exec(function(err, websites) {
+            if (err) return next(err);
+            return res.send(websites);
+          });
+      });
+    });
+});
 
 
 app.use(function(req, res) {

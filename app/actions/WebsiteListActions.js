@@ -6,7 +6,9 @@ class WebsiteListActions {
       'getWebsitesSuccess',
       'getWebsitesFail',
       'delWebsiteSuccess',
-      'delWebsiteFail'
+      'delWebsiteFail',
+      'updateWebsiteSuccess',
+      'updateWebsiteFail'
     );
   }
 
@@ -22,19 +24,34 @@ class WebsiteListActions {
       });
   }
 
-  delWebsite(websiteId) {
+  delWebsite(siteId) {
     let url = '/api/delSite';
-    console.log('siteId',websiteId)
+    console.log(siteId);
     $.ajax({
       type: 'POST',
       url: url,
-      data: {websiteId: websiteId}
+      data: {websiteId: siteId.websiteId}
     })
       .done((data) => {
-        this.actions.delWebsiteSuccess(data);
+        this.actions.delWebsiteSuccess(siteId.websiteId);
       })
       .fail((jqXhr) => {
         this.actions.delWebsiteFail(jqXhr);
+      });
+  }
+
+  updateWebsite(status) {
+    let url = '/api/updateSite';
+    $.ajax({
+      type: 'PUT',
+      url: url,
+      data: {websiteId: status.websiteId}
+    })
+      .done((data) => {
+        this.actions.updateWebsiteSuccess(data);
+      })
+      .fail((jqXhr) => {
+        this.actions.updateWebsiteFail(jqXhr);
       });
   }
 
